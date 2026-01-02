@@ -20,7 +20,7 @@ pipeline{
                 sh '''
                 docker stop portfolio-devops || true
                 docker rm portfolio-devops || true
-                docker run -d -p 3000:80 --name portfolio portfolio-devops:latest
+                docker run -d -p 3001:80 --name devops-porfolio portfolio-devops:latest
                 '''
             }
         }
