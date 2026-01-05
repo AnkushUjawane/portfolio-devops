@@ -16,16 +16,17 @@ pipeline{
 
         stage('Checkout portfolio source repo'){
             steps{
-                dir('app'){
-                    git branch: 'main', 
-                    url: "${APP_REPO}"
-                }
+                sh '''
+                rm -rf app
+                git clone ${APP_REPO} app
+                '''
             }
         }
 
         stage('Build docker image'){
             steps{
                 sh '''
+                cd app
                 docker build -t ${DOCKERHUB_REPO}:${BUILD_TAG} \
                 -t ${DOCKERHUB_REPO}:latest .
                 '''
