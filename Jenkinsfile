@@ -2,6 +2,7 @@ pipeline{
     agent any
 
     environment{
+        APP_REPO = "https://github.com/AnkushUjawane/AnkushUjawane.github.io.git"
         DOCKERHUB_REPO = "docker.io/ankush1808/portfolio"
         BUILD_TAG = "${env.BUILD_NUMBER}"
     }
@@ -13,9 +14,19 @@ pipeline{
             }
         }
 
+        stage('Checkout portfolio source repo'){
+            steps{
+                sh '''
+                rm -rf app
+                git clone ${APP_REPO} app
+                '''
+            }
+        }
+
         stage('Build docker image'){
             steps{
                 sh '''
+                cd app
                 docker build -t ${DOCKERHUB_REPO}:${BUILD_TAG} \
                 -t ${DOCKERHUB_REPO}:latest .
                 '''
