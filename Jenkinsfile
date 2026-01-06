@@ -6,7 +6,6 @@ pipeline{
         DOCKERHUB_REPO = "docker.io/ankush1808/portfolio"
         BUILD_TAG = "${env.BUILD_NUMBER}"
         CONTAINER = "portfolio"
-        PORT = "3000"
     }
 
     stages{
@@ -79,7 +78,7 @@ pipeline{
         stage('run container'){
             steps{
                 sh ''' 
-                docker run -d --name ${CONTAINER} -p ${PORT}:80 ${DOCKERHUB_REPO}:latest
+                docker run -d --name ${CONTAINER} -p 3000:80 ${DOCKERHUB_REPO}:latest
                 '''
             }
         }
