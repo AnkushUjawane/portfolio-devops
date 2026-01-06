@@ -6,7 +6,7 @@ pipeline{
         DOCKERHUB_REPO = "docker.io/ankush1808/portfolio"
         BUILD_TAG = "${env.BUILD_NUMBER}"
         CONTAINER = "portfolio"
-        PORT = "8080"
+        PORT = "3000"
     }
 
     stages{
