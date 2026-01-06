@@ -5,6 +5,8 @@ pipeline{
         APP_REPO = "https://github.com/AnkushUjawane/AnkushUjawane.github.io.git"
         DOCKERHUB_REPO = "docker.io/ankush1808/portfolio"
         BUILD_TAG = "${env.BUILD_NUMBER}"
+        CONTAINER = "portfolio"
+        PORT = "8080"
     }
 
     stages{
@@ -56,11 +58,28 @@ pipeline{
             }
         }
 
-        stage('cleanup local images'){
+        // stage('cleanup local images'){
+        //     steps{
+        //         sh '''
+        //         docker rmi ${DOCKERHUB_REPO}:${BUILD_TAG} || true
+        //         docker rmi ${DOCKERHUB_REPO}:latest || true
+        //         '''
+        //     }
+        // }
+
+        stage('stop old container'){
             steps{
-                sh '''
-                docker rmi ${DOCKERHUB_REPO}:${BUILD_TAG} || true
-                docker rmi ${DOCKERHUB_REPO}:latest || true
+                sh ''' 
+                docker stop ${CONTAINER} || true
+                docker rm -f ${CONTAINER} || true
+                '''
+            }
+        }
+
+        stage('run container'){
+            steps{
+                sh ''' 
+                docker run -d --name ${CONTAINER} -p ${PORT}:80 ${DOCKERHUB_REPO}:latest
                 '''
             }
         }
