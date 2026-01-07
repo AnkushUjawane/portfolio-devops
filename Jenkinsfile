@@ -79,7 +79,7 @@ pipeline{
             steps{
                 sh ''' 
                 docker pull ${DOCKERHUB_REPO}:latest
-                docker run -d --name ${CONTAINER} -p 3000:80 ${DOCKERHUB_REPO}:latest
+                docker run -d --name ${CONTAINER} -p 3000:80 --restart=always ${DOCKERHUB_REPO}:latest
                 '''
             }
         }
